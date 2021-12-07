@@ -1,9 +1,10 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
 const { interface, bytecode } = require("./compile");
+require("dotenv").config();
 
 const provider = new HDWalletProvider(
-  "bla bla bla",
+  process.env.METAMASK_PHRASE,
   // remember to change this to your own phrase!
   "https://rinkeby.infura.io/v3/3dbd88d2f98548059d774ebe5906d1d7"
   // remember to change this to your own endpoint!
@@ -19,6 +20,7 @@ const deploy = async () => {
     .deploy({ data: bytecode })
     .send({ gas: "1000000", from: accounts[0] });
 
+  console.log(interface);
   console.log("Contract deployed to", result.options.address);
   provider.engine.stop();
 };
